@@ -1,6 +1,6 @@
 ---
 title: "Turing Honors Thesis: Reddit Election Predictor"
-excerpt: "[Turing Honors Thesis](https://ashvio.github.io/files/Turing_Honors_Thesis.pdf) research project capable of predicting 2016 Presidential election results and polling using Reddit data <br/><img src='/images/1_GRRVzeHOkqIXznIB51Xx5A.png' width='400'  class='center'>"
+excerpt: "[Turing Honors Thesis](https://ashvio.github.io/files/Turing_Honors_Thesis.pdf) 2019 research project capable of predicting 2016 Presidential election results and polling using Reddit data <br/><img src='/images/1_GRRVzeHOkqIXznIB51Xx5A.png' width='400'  class='center'>"
 collection: portfolio
 ---
 
