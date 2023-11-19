@@ -81,9 +81,9 @@ analytics:
 # Site Author
 author:
   name             : "Ash Govil"
-  avatar           : "profile.png"
-  bio              : "Your biography for the left-hand sidebar"
-  location         : "Location"
+  avatar           : "madeline_from_celeste_by_tysontan_dfxdrup-414w-2x.jpg"
+  bio              : "ML Industry Expert/Researcher, with a focus on LLMs as applied to solving human problems."
+  location         : "Los Angeles"
   employer         :
 #  pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
 #  googlescholar    : "http://yourfullgooglescholarurl.com"
@@ -102,7 +102,7 @@ author:
   instagram        :
 #  impactstory      : #"https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
   lastfm           :
-  linkedin         :
+  linkedin         : https://www.linkedin.com/in/ashvin-govil-79a439111/
 #  orcid            : "http://orcid.org/yourorcidurl"
   pinterest        :
   soundcloud       :
@@ -113,7 +113,7 @@ author:
   vine             :
   weibo            :
   xing             :
-  youtube          :
+  youtube          : https://www.youtube.com/watch?v=n_Q_P1CvZiI
   wikipedia        :
 
 
