@@ -13,7 +13,7 @@ main:
     url: /portfolio/
         
   - title: "Blog Posts"
-    url: /posts/
+    url: /blog/
     
   - title: "CV"
     url: /files/Ashvin_Govil_CV.pdf
