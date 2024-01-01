@@ -124,7 +124,7 @@ As mentioned before, the three key components of reinforcement learning are the 
 The overall architecture as well as the RL algorithm itself are implemented using [RLLib](https://docs.ray.io/en/latest/rllib/index.html), which is a reinforcement learning library built on top of [Ray](https://docs.ray.io/en/latest/index.html). RLLib is a great library for distributed reinforcement learning, with several operating modes that allow you to train the RL algorithm across several instances of the game at the same time. Although I only had one computer, I used the server/client mode to train the RL algorithm across multiple game clients at once, which reduced training time for a basic agent from around a day to a few hours. 
 
 <figure>
-    <img src="images/rllib-envs.png"
+    <img src="/images/rllib-envs.png"
          alt="RLLib environment description">
     <figcaption>The architecture I used for the RL training system.</figcaption>
 </figure>
