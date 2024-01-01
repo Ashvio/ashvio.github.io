@@ -1,6 +1,6 @@
 ---
 title: 'How I created an AI that can (partially) play the platformer game Celeste'
-date: 2023-12
+date: 2023-12-31
 permalink: /posts/2023/12/celeste-rl/
 tags:
   - Reinforcement Learning
