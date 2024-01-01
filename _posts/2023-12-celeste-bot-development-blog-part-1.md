@@ -1,5 +1,5 @@
 ---
-title: 'How I created an AI that can (partially) play the platformer game Celeste[Ashvin_Govil_CV (2).pdf](..%2F..%2F..%2FUsers%2FAshvin%2FDownloads%2FAshvin_Govil_CV%20%282%29.pdf)'
+title: 'How I created an AI that can (partially) play the platformer game Celeste'
 date: December 2023
 permalink: /posts/2023/12/celeste-rl/
 tags:
