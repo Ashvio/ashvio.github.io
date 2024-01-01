@@ -7,7 +7,6 @@ tags:
   - Artificial Intelligence
   - Celeste
   - Video Games
-  - Video Game AI
 ---
 
 
