@@ -13,6 +13,7 @@ tags:
 How I created an AI that can (partially) play the platformer game Celeste 
 ======
 ### _CelesteBot Development Blog, Part 1_
+<iframe width="560" height="315" src="https://www.youtube.com/embed/n_Q_P1CvZiI?si=N1_T9xnXKfqw77un" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 #### Introduction
 This is the first in a series of blog posts about the Celeste AI I am developing using PPO Reinforcement Learning. In case you aren't familiar, Celeste is an indie platformer game known for its difficulty and fluid but precise controls, which make it stand out from traditional platformers such as Super Mario Bros that are designed with a broader audience in mind. The game is available on [Steam](https://store.steampowered.com/app/504230/Celeste/) and [Nintendo Switch](https://www.nintendo.com/games/detail/celeste-switch/). Celeste has become somewhat of a cult classic to its fans, and maintains a substantial speedrunning and modding community even though it came out over 5 years ago.
@@ -133,6 +134,11 @@ A single server process managed all the RL training and inference from game stat
 
 Thanks to having 128GB of RAM and a beefy desktop CPU/GPU, I could run between 4 and 9 instances of Celeste training at once, depending on the complexity of the Policy model. As an additional benefit, since the server receives game state data from several games at once, each individual training mini-batch was less prone to overfitting to a particular level or game state than if I had only used a single instance of the game. 
 
+#### Other Optimizations
+
+As you may have noticed from the sample video, the game runs much faster than normal speed and has no special graphics or textures. During training, the game runs at 4-10x the normal speed in order to increase the training speed per game client instance. The code for this is very simple, and essentially runs the entire frame calculation loop N times every normal frame, where N is the speedup factor.
+
+For optimizing the graphics, I extracted the SimplifiedGraphics optimizations from [CelesteTAS](https://github.com/EverestAPI/CelesteTAS-EverestInterop/tree/master/CelesteTAS-EverestInterop/Source) in order to only display the very minimum needed to understand the game visually. These optimizations remove all the "fun" graphics that add to the experience of the game, but don't provide any gameplay value.
 #### Results and Next Steps
 With all the pieces in place, I was able to train a basic agent that could beat the first 1.5 chapters of the game. I used the Population Bandit 2 search algorithm in order to tune hyperparameters, which helps the agent learn much more efficiently. The agent is able to learn how to beat the first chapter of the game, but struggles to learn how to beat the second half of the second chapter. The total training time for the agent was around 8-12 hours, which is much faster than I expected!
 
