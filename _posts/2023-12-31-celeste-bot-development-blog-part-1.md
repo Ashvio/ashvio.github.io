@@ -32,7 +32,7 @@ Training speed is essential to this project, as iterating on the algorithm would
 By extracting the tiles that represent objects in the game, I can fully represent the current game state in only a 40x40 tile grid. Furthermore, rather than relying on RBG or grayscale colors to represent each tile, each pixel is represented by the ID of the specific tile. For example, the character is Tile ID 1, Air (empty space) is ID 2, and so on. This simple game state representation allows me to train the AI much faster than if I had to train it on screenshots of the game.
 
 <figure>
-    <img src="images/bot-screenshot-1.png"
+    <img src="/images/bot-screenshot-1.png"
          alt="bot screenshot">
     <figcaption>An example of how the game state is represented to the AI (top left), compared to what a human would see.</figcaption>
 </figure>
@@ -46,7 +46,7 @@ The RL algorithm itself is responsible for training the Policy to maximize the r
 
 <center> 
 <figure>
-    <img src="images/actor-critic.png"
+    <img src="/images/actor-critic.png"
          alt="actor critic model" 
          width= "50%">
     <figcaption>A diagram showing the basics of an Actor-Critic algorithm <a href="https://inst.eecs.berkeley.edu/~cs188/sp20/assets/files/SuttonBartoIPRLBook2ndEd.pdf">Source</a></figcaption>
