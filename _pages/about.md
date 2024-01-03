@@ -14,3 +14,5 @@ As an industry ML/AI engineer and researcher, I have focused my craft on designi
 I have had a strong interest in AI and ML for 8 years, ever since I took a Robotics class as a freshman in college. Since then, I took several Data Science/Statistics classes, worked on several research projects in collaboration with professors, and even published a research paper as my [Honors Thesis](https://ashvio.github.io/portfolio/portfolio-1/) at UT Austin. Today, outside of work, I keep close tabs on trends and changes in ML as the field rapidly evolves. I also contribute my own ideas to the space, such as my Celeste RL Agent capable of playing the first 1.5 chapters of the game so far! [Check out the development blog post here.](https://ashvio.github.io/posts/2023/12/celeste-rl/)
  
 I am especially interested in research that can help make AI more accessible and equitable for all people, and I am excited to work with researchers who share this vision. Feel free to contact me through the information in the sidebar if you want to collaborate or share thoughts!
+
+Profile picture artist: [TysonTan](https://www.deviantart.com/tysontan/gallery)
