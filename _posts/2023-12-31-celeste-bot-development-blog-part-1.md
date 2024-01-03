@@ -12,15 +12,15 @@ tags:
 
 How I created an AI that can (partially) play the platformer game Celeste 
 ======
-### _CelesteBot Development Blog, Part 1_
+## _CelesteBot Development Blog, Part 1_
 <iframe width="560" height="315" src="https://www.youtube.com/embed/n_Q_P1CvZiI?si=N1_T9xnXKfqw77un" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-#### Introduction
+### Introduction
 This is the first in a series of blog posts about the Celeste AI I am developing using PPO Reinforcement Learning. In case you aren't familiar, Celeste is an indie platformer game known for its difficulty and fluid but precise controls, which make it stand out from traditional platformers such as Super Mario Bros that are designed with a broader audience in mind. The game is available on [Steam](https://store.steampowered.com/app/504230/Celeste/) and [Nintendo Switch](https://www.nintendo.com/games/detail/celeste-switch/). Celeste has become somewhat of a cult classic to its fans, and maintains a substantial speedrunning and modding community even though it came out over 5 years ago.
 
 In fact, the plethora of tools and knowledge cultivated by the modding and TAS (tool assisted speedrun) community is what made this project possible. I'm grateful for their assistance answering my questions on everything from debugging to finding the right tools to use. The project relies on a modding framework for Celeste called [Everest](https://everestapi.github.io/) to create a mod that allows the AI to both control and read the game state directly through code. I originally forked the project from an earlier attempt by [sc2ad](https://github.com/sc2ad/CelesteBot) to create a Celeste AI. I mostly used their code for controlling Madeline (the main character) and for the code that allows the AI to read the game state. The code for the AI itself is entirely my own, and relies on a Python interconnect to [RLLib](https://docs.ray.io/en/latest/rllib/index.html) from the C# code that controls the game using [PythonNET](https://github.com/pythonnet/pythonnet/wiki). 
 
-#### Why Celeste?
+### Why Celeste?
 
 I have wanted to create a Reinforcement Learning algorithm to play a game for some time now, but choosing the right game for doing so is a challenge in itself. I ended up choosing Celeste because of the tools made by modding community and because I wanted to stretch the limits of RL with a game much more challenging than the average platformer. Despite its difficulty, it's a relatively simple game for AI to understand and learn to play since it is 2D, and only has a handful of controls with no analog controls (eg, a mouse or joystick). More complex 3D games are much more difficult to implement, and would require large clusters of GPUs to train. 
 
@@ -39,7 +39,7 @@ By extracting the tiles that represent objects in the game, I can fully represen
 </figure>
 The developers also created the game to be intentionally difficult, but forgiving so that players would be able to iterate on their mistakes and learn. When the character dies, you only ever reset to the beginning of the screen you died on, and there is no life or health bar like in traditional platformers. The idea of trying over and over and learning from your mistakes is essentially how reinforcement learning actually learns as well, so the human-centered game design also benefits AI! 
 
-#### The Policy
+### The Policy
 
 Now to get into the meat of the RL algorithm: The Policy. [Model-free reinforcement learning](https://arxiv.org/pdf/1811.12560.pdf) differs from other ML techniques in that the learning algorithm is actually separate from the model itself. Actor-Critic algorithms, a form of model-free larning, predict the best action from a game state as well as the expected reward from an action/game state combination. Actor-Critic policies allow the model to teach itself both how to act and how to evaluate its own actions, a key component in the learning process.
 
@@ -62,7 +62,7 @@ As mentioned before, Celeste is a very difficult game, which means the policy op
 
 
 
-##### The Reward Function 
+#### The Reward Function 
  The goal of any reinforcement learning agent is to maximize the expected cumulative reward, called return, by choosing the best action at each step. The reinforcement learning algorithm updates the policy based on the agent’s experiences of states, actions, and rewards. The reward function is a subjective choice based on the goals of the agent and essentially encodes the goals of the agent. Since the reward is automatically calculated in a function for every game state, this means that the RL agent teaches itself to play the game without any human input! [^1]
 
 For CelesteBot, I chose to use a reward function that rewards the agent for moving towards the end of the level, and penalizes the agent for dying based on how close to the goal it reached. The reward function is calculated by taking the difference in positions between the current game state and the previous game state, and then adding a reward for moving towards the end of the level and subtracting a reward for dying. The reward function is also scaled by the number of frames that have passed since the last reward was given, which essentially means that the agent is rewarded for moving towards the end of the level as quickly as possible.
@@ -102,7 +102,7 @@ The solution to this is to train the agent on a variety of levels in a random or
 
 Overall, the reward function essentially rewards moving towards the goal very quickly and especially towards areas it hasn't reached before. This maps to how a human would play the game normally, as even regular players don't usually waste time while playing games by going back and forth before going to the exit. The agent also learns to avoid dying early in the level, but can actually be rewarded for dying very close to the level. Over-punishing death results in an agent that's too afraid to learn, and just like a human player, the agent will have to die many times in order to learn how to play the game.
 
-##### The Policy Model
+#### The Policy Model
 Finally, the Policy model itself is a neural network that takes in the game state and outputs the best action to take. The Policy model is a convolutional neural network that takes in a 40x40 pixel grid representing the game state, and outputs the best action to take.[^2] I also added several attention layers to the model in order to create a sense of "memory" in the neural network, similar to how LLMs learn language data. These attention layers are essential to learning a more difficult game like Celeste, since they allow the agent to use past actions and game states to help understand what to do in the future in the same way a human would play the game. The model is trained by the PPO algorithm described earlier. Unlike traditional deep learning, designing the deep model itself is a much smaller part of the overall project, since the PPO algorithm is mostly responsible the quality of the trained model.
 
 Model Architecture passed through RLLib, provided for those familiar with Deep Learning:
@@ -118,7 +118,7 @@ Model Architecture passed through RLLib, provided for those familiar with Deep L
 }
 ```
 
-#### Parallelized Training Architecture
+### Parallelized Training Architecture
 
 As mentioned before, the three key components of reinforcement learning are the controls, the game state, and the reward function. However, in order to scale the training of the AI, I created high-level three components to manage the overall system architecture: the game client, the reinforcement learning server for training and inference, and the interconnect between the game client and the server. By separating the game client process from the RL algorithm, I can run several instances of Celeste at once to parallelize the training of the RL algorithm.
 
@@ -134,17 +134,17 @@ A single server process managed all the RL training and inference from game stat
 
 Thanks to having 128GB of RAM and a beefy desktop CPU/GPU, I could run between 4 and 9 instances of Celeste training at once, depending on the complexity of the Policy model. As an additional benefit, since the server receives game state data from several games at once, each individual training mini-batch was less prone to overfitting to a particular level or game state than if I had only used a single instance of the game. 
 
-#### Other Optimizations
+### Other Optimizations
 
 As you may have noticed from the sample video, the game runs much faster than normal speed and has no special graphics or textures. During training, the game runs at 4-10x the normal speed in order to increase the training speed per game client instance. The code for this is very simple, and essentially runs the entire frame calculation loop N times every normal frame, where N is the speedup factor.
 
 For optimizing the graphics, I extracted the SimplifiedGraphics optimizations from [CelesteTAS](https://github.com/EverestAPI/CelesteTAS-EverestInterop/tree/master/CelesteTAS-EverestInterop/Source) in order to only display the very minimum needed to understand the game visually. These optimizations remove all the "fun" graphics that add to the experience of the game, but don't provide any gameplay value.
-#### Results and Next Steps
+### Results and Next Steps
 With all the pieces in place, I was able to train a basic agent that could beat the first 1.5 chapters of the game. I used the Population Bandit 2 search algorithm in order to tune hyperparameters, which helps the agent learn much more efficiently. The agent is able to learn how to beat the first chapter of the game, but struggles to learn how to beat the second half of the second chapter. The total training time for the agent was around 8-12 hours, which is much faster than I expected!
 
 This initial stage of this project centered around creating the framework to interpret the game state and to create a basic agent that showed that the concept of an RL agent playing Celeste is possible. However, the levels that come after the first 2 chapters are much more difficult than the levels it has learned to play so far. The next part of the project will focus on improving the agent's ability to learn to play the game by improving the model architecture and training process, such as through the level randomizer I mentioned earlier.
 
-#### Solving the Meta-Exploration Problem
+### Solving the Meta-Exploration Problem
 Another large problem I haven't mentioned yet is that the agent can learn how to beat a level by reaching the goal of the level, but it doesn't know how to choose the end of the level! So far, I have manually encoded the coordinates of the ends of levels as a stopgap, but this would quickly become very labor-intensive and somewhat defeats the purpose of an autonomous agent. 
 
 One solution would be to train a separate model to predict the end of the level, and then use that model to choose the end of the level. However, this would require a lot of extra training time, and would require a lot of extra work to integrate the two models together.
@@ -174,7 +174,7 @@ Prompting GPT4 in this manner essentially asks the LLM to use its a human-level 
 
 However, this method is not guaranteed to work for more complex situations, and will require more time and iteration to get right. I'm excited to see how this project progresses, and I hope you are too! I will return with a Part 2 once I have more updates to share.
 
-#### Conclusion
+### Conclusion
 When I first started this project, I estimated it only had about a 30-40% chance of success in a few weeks of continuous effort from one person. Thanks to the modding community, open source RL libraries, and the cumulative effort of the AI research community, it turned out to be far more doable than I originally anticipated! I had a great time learning to use the modding frameworks, RL frameworks, and sharing it with the community. I even hosted silent Discord streams where a few people watched the bot learn to play the game for hours at a time, which was a lot of fun.
 
 If you're interested in learning more about the project, check out the [GitHub repo](https://github.com/Ashvio/CelesteBot). You can even make contributions of your own! I'm also happy to answer any questions you have about the project, so feel free to reach out to my contact information in the sidebar.
