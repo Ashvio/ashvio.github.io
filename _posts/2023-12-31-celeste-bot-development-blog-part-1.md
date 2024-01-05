@@ -45,7 +45,7 @@ The developers also created the game to be intentionally difficult, but forgivin
 
 Now to get into the meat of the RL algorithm: The Policy. [Model-free reinforcement learning](https://arxiv.org/pdf/1811.12560.pdf) differs from other ML techniques in that the learning algorithm is actually separate from the model itself. Actor-Critic algorithms, a form of model-free learning, predict the best action from a game state as well as the expected reward from an action/game state combination. Actor-Critic policies allow the model to teach itself both how to act and how to evaluate its own actions, a key component in the learning process.
 
-The RL algorithm itself is responsible for training the Policy to maximize the reward function, which itself is derived from game state. For example, reaching the end of a level would provide a positive reward, and dying far away from the end of the level would give a negative reward. Actor-Critic RL combines both value-based and policy-based RL, which means that the RL algorithm also trains a value function that represents the expected reward for a given game state.
+The RL algorithm itself is responsible for training the Policy to make actions that will maximize the reward function for a particular game state. For example, reaching the end of a level would provide a positive reward, and dying far away from the end of the level would give a negative reward. Actor-Critic RL combines both value-based and policy-based RL, which means that the RL algorithm also trains a separate value function that predicts the expected reward if the agent takes a specific action in a given game state.
 
 <center> 
 <figure>
