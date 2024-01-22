@@ -10,8 +10,6 @@ tags:
 ---
 
 
-How I created an AI that can (partially) play the platformer game Celeste 
-======
 ## _CelesteBot Development Blog, Part 1_
 <iframe width="560" height="315" src="https://www.youtube.com/embed/n_Q_P1CvZiI?si=N1_T9xnXKfqw77un" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
